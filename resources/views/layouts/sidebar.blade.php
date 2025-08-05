@@ -9,7 +9,7 @@
       <div class="navbar-content">
         <ul class="pc-navbar">
           <li class="pc-item">
-            <a href="/welcome" class="pc-link">
+            <a href="/dashboard" class="pc-link">
               <span class="pc-micon"><i class="fas fa-chart-line"></i>
               </span>
               <span class="pc-mtext">Dashboard</span>
@@ -43,6 +43,18 @@
             <a href="/dashboard-produk" class="pc-link">
               <span class="pc-micon"><i class="fas fa-box"></i></span>
               <span class="pc-mtext">Produk</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="/dashboard-stok" class="pc-link">
+              <span class="pc-micon"><i class="fas fa-warehouse"></i></span>
+              <span class="pc-mtext">Stok Produk</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="/contact-us" class="pc-link">
+              <span class="pc-micon"><i class="fas fa-envelope"></i></span>
+              <span class="pc-mtext">Contact Us</span>
             </a>
           </li>
 

@@ -20,7 +20,7 @@ class Produk extends Model
 
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class, 'kategori_id');
+        return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
     }
 
     public function supplier()
@@ -32,5 +32,11 @@ class Produk extends Model
     {
         return $this->belongsTo(Satuan::class, 'satuan_id');
     }
+    public function stok()
+    {
+        return $this->hasOne(Stok::class, 'produk_id');
+    }
+
+
 
 }
