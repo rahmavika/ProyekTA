@@ -8,6 +8,7 @@
 </div>
 
 <a href="/dashboard-supplier/create" class="btn btn-primary mb-3">+Supplier</a>
+<a href="/cetak/supplier" target="_blank" class="btn btn-success mb-3">Cetak PDF</a>
 <table id=supplierTable class="table table-dashboard">
     <thead>
         <tr>
@@ -23,7 +24,7 @@
     <tbody>
         @foreach ($suppliers as $supplier)
         <tr>
-            <td>{{ $suppliers->firstItem()+$loop->index}}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $supplier->nama_supplier }}</td>
             <td>{{ $supplier->telepon }}</td>
             <td>{{ $supplier->email }}</td>
@@ -55,7 +56,6 @@
         @endforeach
     </tbody>
 </table>
-{{ $suppliers->links() }}
 
 <!-- Modal Detail Supplier -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
@@ -112,7 +112,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Hapus
         document.querySelectorAll('.btn-delete').forEach(button => {
             button.addEventListener('click', function () {
                 const supplierId = this.getAttribute('data-id');
@@ -134,7 +133,6 @@
             });
         });
 
-        // Detail
         document.querySelectorAll('.btn-detail').forEach(button => {
             button.addEventListener('click', function () {
                 document.getElementById('detailNama').innerText = this.dataset.nama;
@@ -148,7 +146,6 @@
             });
         });
 
-        // Pesan sukses
         @if (session('pesan'))
             Swal.fire({
                 title: 'Berhasil!',

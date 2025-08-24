@@ -21,7 +21,7 @@
     <tbody>
         @foreach ($kategoris as $kategori)
         <tr>
-            <td>{{ $kategoris->firstItem() + $loop->index }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $kategori->nama_kategori }}</td>
             <td>{{ $kategori->deskripsi }}</td>
             <td class="text-nowrap">
@@ -47,7 +47,6 @@
         @endforeach
     </tbody>
 </table>
-{{ $kategoris->links() }}
 
 <!-- Modal Create -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">

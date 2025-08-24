@@ -20,69 +20,80 @@
     <tbody>
         @foreach ($stoks as $stok)
         <tr>
-            <td>{{ $stoks->firstItem() + $loop->index }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $stok->nama_produk }}</td>
             <td>{{ $stok->jumlah_stok }}</td>
             <td class="text-nowrap">
-                <!-- Tombol Tambah Stok (trigger modal) -->
-<button type="button"
-class="btn btn-success btn-sm"
-data-bs-toggle="modal"
-data-bs-target="#modalTambahStok-{{ $stok->produk_id }}">
-<i class="bi bi-plus-circle"></i>
-</button>
-
-
-                <a href="/dashboard-create/{{ $stok->produk_id }}/edit" class="btn btn-sm btn-primary">
-                    <i class="bi bi-pencil-square"></i>
-                </a>
-
-                <button type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{ $stok->produk_id }}">
-                    <i class="bi bi-trash-fill"></i>
+                <button type="button"
+                    class="btn btn-success btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalTambahStok-{{ $stok->produk_id }}">
+                    <i class="bi bi-plus-circle"></i>
                 </button>
-
-                <form id="form-delete-{{ $stok->produk_id }}" action="/dashboard-produk/{{ $stok->produk_id }}" method="POST" class="d-none">
-                    @csrf
-                    @method('DELETE')
-                </form>
+                <button type="button"
+                    class="btn btn-danger btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalKurangiStok-{{ $stok->produk_id }}">
+                    <i class="bi bi-dash-circle"></i>
+                </button>
             </td>
         </tr>
+        <div class="modal fade" id="modalTambahStok-{{ $stok->produk_id }}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{ route('stok.tambah', $stok->produk_id) }}" method="POST">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                Tambah Stok - {{ $stok->nama_produk }}
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label>Jumlah</label>
+                            <input type="number" name="jumlah" class="form-control" min="1" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Tambah</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalKurangiStok-{{ $stok->produk_id }}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{ route('stok.kurangi', $stok->produk_id) }}" method="POST">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title">Kurangi Stok - {{ $stok->nama_produk }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label>Jumlah</label>
+                            <input type="number" name="jumlah" class="form-control" min="1" required>
+                        </div>
+                        <div class="modal-body">
+                            <label for="keterangan" class="form-label">Keterangan</label>
+                            <input type="text" name="keterangan" class="form-control" placeholder="Contoh: Penjualan, Barang rusak, dll" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Kurangi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         @endforeach
     </tbody>
+
 </table>
-{{ $stoks->links() }}
-
-<!-- Modal Tambah Stok -->
-<div class="modal fade" id="modalTambahStok-{{ $stok->produk_id }}" tabindex="-1" aria-labelledby="modalLabel{{ $stok->produk_id }}" aria-hidden="true">
-    <div class="modal-dialog">
-      <form action="/dashboard-stok/{{ $stok->produk_id }}/tambah" method="POST">
-        @csrf
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalLabel{{ $stok->produk_id }}">Tambah Stok - {{ $stok->nama_produk }}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="jumlah_tambah_{{ $stok->produk_id }}" class="form-label">Jumlah Tambah</label>
-              <input type="number" name="jumlah_tambah" class="form-control" id="jumlah_tambah_{{ $stok->produk_id }}" min="1" required>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Simpan</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Delete
         document.querySelectorAll('.btn-delete').forEach(button => {
             button.addEventListener('click', function () {
                 const produkId = this.getAttribute('data-id');
@@ -124,8 +135,6 @@ data-bs-target="#modalTambahStok-{{ $stok->produk_id }}">
                 modal.show();
             });
         });
-
-        // Sweetalert success
         @if (session('pesan'))
             Swal.fire({
                 title: 'Berhasil!',

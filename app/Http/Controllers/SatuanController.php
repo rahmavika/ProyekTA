@@ -12,7 +12,7 @@ class SatuanController extends Controller
      */
     public function index()
     {
-        $satuans = Satuan::paginate(10);
+        $satuans = Satuan::all();
         return view('satuans.index', compact('satuans'));
     }
 

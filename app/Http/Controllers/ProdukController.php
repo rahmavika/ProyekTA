@@ -8,6 +8,7 @@ use App\Models\Satuan;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\PDF;
 
 class ProdukController extends Controller
 {
@@ -16,7 +17,7 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produks = Produk::paginate(10);
+        $produks = Produk::all();
         return view('produks.index', compact('produks'));
     }
 
@@ -75,10 +76,7 @@ class ProdukController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Ambil data produk berdasarkan ID
         $produk = Produk::findOrFail($id);
-
-        // Validasi input
         $validated = $request->validate([
             'nama_produk' => 'required|min:3',
             'kategori_id' => 'required|exists:kategoris,id',
@@ -106,15 +104,16 @@ class ProdukController extends Controller
     {
         $produk = Produk::findOrFail($id);
 
-        // Hapus gambar dari storage jika ada
         if ($produk->gambar && Storage::disk('public')->exists($produk->gambar)) {
             Storage::disk('public')->delete($produk->gambar);
         }
-
-        // Hapus produk dari database
         $produk->delete();
 
         return redirect('/dashboard-produk')->with('pesan', 'Data berhasil dihapus');
+    }
+    public function cetakPdf(){
+        $pdf = PDF::loadView('produks.cetak', ['produks' => Produk::all()]);
+        return $pdf->stream('Laporan-Data-Produk.pdf');
     }
 
 }

@@ -8,6 +8,7 @@
 </div>
 
 <a href="/dashboard-produk/create" class="btn btn-primary mb-3">+Produk</a>
+<a href="/cetak/produk" target="_blank" class="btn btn-success mb-3">Cetak PDF</a>
 <table id=produkTable class="table table-dashboard">
     <thead>
         <tr>
@@ -24,7 +25,7 @@
     <tbody>
         @foreach ($produks as $produk)
         <tr>
-            <td>{{ $produks->firstItem() + $loop->index }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $produk->nama_produk }}</td>
             <td>{{ $produk->kategori->nama_kategori }}</td>
             <td>{{ $produk->satuan->satuan }}</td>
@@ -61,7 +62,6 @@
         @endforeach
     </tbody>
 </table>
-{{ $produks->links() }}
 
 <!-- Modal Detail Produk -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
@@ -124,7 +124,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Delete
         document.querySelectorAll('.btn-delete').forEach(button => {
             button.addEventListener('click', function () {
                 const produkId = this.getAttribute('data-id');
@@ -144,8 +143,6 @@
                 });
             });
         });
-
-        // Detail
         document.querySelectorAll('.btn-detail').forEach(button => {
             button.addEventListener('click', function () {
                 let nama = this.dataset.nama;
@@ -166,8 +163,6 @@
                 modal.show();
             });
         });
-
-        // Sweetalert success
         @if (session('pesan'))
             Swal.fire({
                 title: 'Berhasil!',

@@ -3,13 +3,12 @@
 @section('navAdm', 'active')
 @section('content')
 
-<!-- HERO SECTION -->
 <section class="hero-section w-100" style="background-color: #e6f7ff;">
     <div class="row align-items-center py-5 mx-0">
         <div class="col-lg-6 text-center text-lg-start">
             <h1 class="display-4 fw-bold">Selamat Datang di<br><span class="text-primary">A.W. Karya Bangunan</span></h1>
             <p class="lead text-muted">Solusi lengkap kebutuhan material dan peralatan bangunan Anda.</p>
-            <a href="#kategori" class="btn btn-primary btn-lg rounded-pill px-4 mt-3">Lihat Kategori</a>
+            <a href="/semuaproduk" class="btn btn-primary btn-lg rounded-pill px-4 mt-3">Belanja Sekarang</a>
         </div>
         <div class="col-lg-6">
             <img src="{{ asset('storage/banner.png') }}" alt="Banner" class="img-fluid">
@@ -17,44 +16,35 @@
     </div>
 </section>
 
-<!-- KATEGORI MATERIAL BANGUNAN -->
-<section id="kategori" class="py-5 bg-light">
+<section class="py-5 bg-light">
     <div class="container">
-        <h2 class="text-center mb-5">Kategori Material Bangunan</h2>
+        <h2 class="text-center mb-5">Layanan Kami</h2>
         <div class="row g-4">
-            @php
-                $kategori = [
-                    ['img' => 'semen.png', 'nama' => 'Material Struktural', 'deskripsi' => 'Contohnya semen, pasir, besi beton, dan batu bata.'],
-                    ['img' => 'finishing.jpg', 'nama' => 'Material Finishing', 'deskripsi' => 'Contohnya cat, keramik, plesteran, dan granit.'],
-                    ['img' => 'atap.jpg', 'nama' => 'Material Atap', 'deskripsi' => 'Seperti genteng, seng, dan talang air.'],
-                    ['img' => 'plumbing.jpg', 'nama' => 'Plumbing & Sanitasi', 'deskripsi' => 'Pipa, keran, dan saluran air untuk sistem sanitasi.'],
-                    ['img' => 'listrik.jpg', 'nama' => 'Material Listrik', 'deskripsi' => 'Kabel, saklar, stop kontak, dan lampu.'],
-                    ['img' => 'pintu.jpg', 'nama' => 'Pintu & Jendela', 'deskripsi' => 'Daun pintu, engsel, kaca jendela dan rel.'],
-                    ['img' => 'perlengkapan.jpg', 'nama' => 'Perlengkapan Bangunan', 'deskripsi' => 'Seperti paku, lem, pengunci dan lainnya.'],
-                    ['img' => 'peralatan.jpg', 'nama' => 'Peralatan Bangunan', 'deskripsi' => 'Palu, sekop, tang, gergaji dan lainnya.'],
-                ];
-            @endphp
-            @foreach($kategori as $item)
-                <div class="col-md-3 col-sm-6">
-                    <div class="card shadow-sm h-100 border-0">
-                        <img src="{{ asset('storage/' . $item['img']) }}"
-                             class="card-img-top"
-                             alt="{{ $item['nama'] }}"
-                             style="height: 180px; width: 100%; object-fit: cover; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $item['nama'] }}</h5>
-                            <p class="card-text">{{ $item['deskripsi'] }}</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Lihat Produk</a>
-                        </div>
-                    </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-0 text-center p-4">
+                    <i class="bi bi-truck fs-1 text-primary"></i>
+                    <h5 class="mt-3">Pengiriman Cepat</h5>
+                    <p>Kami menyediakan layanan pengiriman cepat langsung ke lokasi proyek Anda.</p>
                 </div>
-            @endforeach
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-0 text-center p-4">
+                    <i class="bi bi-person-lines-fill fs-1 text-primary"></i>
+                    <h5 class="mt-3">Konsultasi Gratis</h5>
+                    <p>Dapatkan saran dan solusi terbaik untuk kebutuhan bangunan Anda dari tim kami.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-0 text-center p-4">
+                    <i class="bi bi-credit-card fs-1 text-primary"></i>
+                    <h5 class="mt-3">Pembayaran Mudah</h5>
+                    <p>Berbagai metode pembayaran tersedia untuk kenyamanan transaksi Anda.</p>
+                </div>
+            </div>
         </div>
-
     </div>
 </section>
 
-<!-- LOKASI TOKO -->
 <section class="py-5">
     <div class="container">
         <h2 class="text-center mb-4">Lokasi Toko Kami</h2>

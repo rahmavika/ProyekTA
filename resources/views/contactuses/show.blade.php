@@ -11,31 +11,24 @@
 
     <div class="card-body bg-light">
         <div class="row mb-4 gx-5">
-            <!-- Nama -->
             <div class="col-md-6 mb-4">
                 <label class="fw-bold text-dark">Nama</label>
                 <div class="text-secondary border-bottom pb-1">
                     {{ $question->nama }}
                 </div>
             </div>
-
-            <!-- Email -->
             <div class="col-md-6 mb-4">
                 <label class="fw-bold text-dark">Email</label>
                 <div class="text-secondary border-bottom pb-1">
                     {{ $question->email }}
                 </div>
             </div>
-
-            <!-- Pertanyaan -->
             <div class="col-md-12 mb-4">
                 <label class="fw-bold text-dark">Pertanyaan</label>
                 <div class="text-secondary border-bottom pb-1">
                     {{ $question->pertanyaan }}
                 </div>
             </div>
-
-            <!-- Jawaban -->
             @if ($question->jawaban)
             <div class="col-md-12 mb-4">
                 <label class="fw-bold text-dark">Jawaban</label>
@@ -44,8 +37,6 @@
                 </div>
             </div>
             @endif
-
-            <!-- Status Tampilkan ke Publik -->
             <div class="col-md-6 mb-4">
                 <label class="fw-bold text-dark">Status Tampil ke Publik</label>
                 <div class="text-secondary border-bottom pb-1">
@@ -54,8 +45,6 @@
                     </span>
                 </div>
             </div>
-
-            <!-- Tanggal Kirim -->
             <div class="col-md-6 mb-4">
                 <label class="fw-bold text-dark">Tanggal Dikirim</label>
                 <div class="text-secondary border-bottom pb-1">
@@ -63,8 +52,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Tombol Kembali -->
         <div class="d-flex justify-content-end mt-4">
             <a href="{{ route('contactuses.index') }}" class="btn btn-secondary px-4 py-2">
                 <i class="bi bi-arrow-left me-1"></i> Kembali

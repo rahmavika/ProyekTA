@@ -107,7 +107,7 @@ class ContactusController extends Controller
     {
         ContactUs::destroy($id);
 
-        return redirect()->route('dashboard.contact_us.index')->with([
+        return redirect()->route('contactuses.index')->with([
             'success' => 'Pertanyaan berhasil dihapus.',
             'alert_type' => 'hapus'
         ]);

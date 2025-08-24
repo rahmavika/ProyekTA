@@ -5,38 +5,53 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade\PDF;
 
 class UserController extends Controller
 {
-    // public function index()
-    // {
-    //     $users = User::where('role', 'pelanggan')->paginate(10);
-    //     return view('users.index', compact('users'));
-    // }
     public function index()
     {
-        $users = User::paginate(10);
+        $currentUser = auth()->user();
+
+        if ($currentUser->role === 'admin') {
+            $users = User::where('role', 'pelanggan')->getl();
+        } elseif ($currentUser->role === 'super_admin') {
+            $users = User::whereIn('role', ['admin', 'pelanggan'])->get();
+        } else {
+            $users = collect();
+        }
+
         return view('users.index', compact('users'));
     }
+
     public function create()
     {
         return view('users.create',['users' =>User::all()]);
     }
     public function store(Request $request)
     {
+        $currentUser = auth()->user();
+
         $validated = $request->validate([
-           'name' => 'required|min:3',
-           'email' => 'required|email|unique:users',
-           'password' => 'required|min:4|confirmed',
-           'phone' => 'required|digits_between:12,16',
-           'role' => 'required|in:admin,pelanggan',
+            'name' => 'required|min:3',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:4|confirmed',
+            'phone' => 'required|digits_between:12,16',
+            'role' => 'nullable|in:admin,pelanggan',
         ]);
 
-        //dd($validated);
+        if ($currentUser->role === 'admin') {
+            $validated['role'] = 'pelanggan';
+        }
+
+        $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
 
         User::create($validated);
         return redirect('/dashboard-pengguna')->with('pesan', 'Data berhasil disimpan');
     }
+
     public function show(User $user)
     {
         $user = User::findOrFail($user->id);
@@ -49,36 +64,89 @@ class UserController extends Controller
     }
     public function update(Request $request, string $id)
     {
+        $currentUser = auth()->user();
         $user = User::findOrFail($id);
 
         $validated = $request->validate([
             'name' => 'required|min:3',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,' . $id,
             'phone' => 'required|digits_between:12,16',
-            'role' => 'required|in:admin,pelanggan',
+            'role' => 'nullable|in:admin,pelanggan',
+            'old_password' => 'nullable|required_with:password',
             'password' => 'nullable|min:4|confirmed',
-            'old_password' => 'required_with:password', // kalau mau ubah password, wajib isi old_password
         ]);
 
-        // Jika password baru diisi, cek old_password dulu
-        if ($request->filled('password')) {
-            if (!Hash::check($request->old_password, $user->password)) {
-                return back()->withErrors(['old_password' => 'Password lama tidak sesuai.']);
-            }
+        if ($currentUser->role === 'admin') {
+            $validated['role'] = 'pelanggan';
+        }
 
-            $validated['password'] = Hash::make($request->password);
+        if (!empty($validated['password'])) {
+            if (!Hash::check($validated['old_password'], $user->password)) {
+                return back()->withErrors(['old_password' => 'Password lama salah'])->withInput();
+            }
+            $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
         }
 
         $user->update($validated);
 
-        return redirect('/dashboard-pengguna')->with('pesan', 'Data pengguna berhasil diperbarui');
+        return redirect('/dashboard-pengguna')->with('pesan', 'Data berhasil diupdate');
     }
+
     public function destroy(string $id)
     {
         User::destroy($id);
         return redirect('/dashboard-pengguna')->with('pesan', 'Data berhasil dihapus');
     }
 
+    public function editUser()
+    {
+        $user = Auth::user(); // Mengambil data pengguna yang sedang login
+        if (!$user) {
+            return redirect()->route('login')->withErrors('Please log in to access this page.');
+        }
+        return view('landingpage.pelanggan.editprofile', compact('user'));
+    }
+
+    public function updateUser(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+            'phone' => 'required|string|max:15',
+            'password' => 'nullable|min:4|confirmed',
+            'old_password' => 'required_with:password',
+        ]);
+
+        try {
+            $dataUpdate = [
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
+            ];
+
+            if (!empty($validated['password'])) {
+                $dataUpdate['password'] = Hash::make($validated['password']);
+            }
+
+            $user = User::findOrFail(Auth::id());
+            $user->update($dataUpdate);
+
+            $request->session()->put('name', $validated['name']);
+            $request->session()->put('email', $validated['email']);
+            $request->session()->put('phone', $validated['phone']);
+
+        } catch (\Exception $e) {
+            Log::error('Error saat menyimpan data pengguna: ' . $e->getMessage());
+            return redirect()->back()->withErrors('Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
+        }
+
+        return redirect('/detailpelanggan')->with('success', 'Profil berhasil diperbarui.');
+    }
+    public function cetakPdf(){
+        $pdf = PDF::loadView('users.cetak', ['users' => User::all()]);
+        return $pdf->stream('Laporan-Data-Pengguna.pdf');
+        //return $pdf->download('Laporan-Data-Mahasiswa.pdf');
+    }
 }

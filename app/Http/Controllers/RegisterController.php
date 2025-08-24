@@ -27,29 +27,6 @@ class RegisterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
-    // {
-    //     $validated = $request->validate([
-    //         'name' => 'required|min:3|unique:users', // Memastikan username unik
-    //         'email' => 'required|email|unique:users', // Memastikan email unik
-    //         'phone' => 'nullable|string', // No HP opsional
-    //         'password' => 'required|min:4|confirmed', // Memastikan password terkonfirmasi
-    //         // Tambahkan validasi untuk captcha jika perlu
-    //         // 'captcha' => 'required|captcha'
-    //     ]);
-
-    //     // Buat pengguna baru dengan role "pelanggan"
-    //     User::create([
-    //         'name' => $validated['name'],
-    //         'email' => $validated['email'],
-    //         'phone' => $validated['phone'], // No HP jika ada
-    //         'password' => Hash::make($validated['password']), // Hash password
-    //         'role' => 'pelanggan', // Set role sebagai pelanggan
-    //     ]);
-
-    //     // Redirect ke halaman login dengan pesan sukses
-    //     return redirect('/login')->with('pesan', 'Berhasil Registrasi! Silakan login.');
-    // }
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -67,7 +44,7 @@ class RegisterController extends Controller
             'role' => 'pelanggan',
         ]);
 
-        return redirect('/')->with('success_register', 'Registrasi berhasil! Silakan login.');
+        return redirect('/login')->with('success_register', 'Registrasi berhasil! Silakan login.');
     }
 
     /**

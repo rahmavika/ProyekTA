@@ -84,7 +84,7 @@
                 <select class="form-select" name="supplier_id" id="supplier_id">
                     <option value="">--Pilih Supplier--</option>
                     @foreach($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}" {{ (old('supplier_id', $produk->supplier_id) == $kategori->id) ? 'selected' : '' }}>
+                        <option value="{{ $supplier->id }}" {{ (old('supplier_id', $produk->supplier_id) == $supplier->id) ? 'selected' : '' }}>
                             {{ $supplier->nama_supplier }}
                         </option>
                     @endforeach
@@ -95,7 +95,7 @@
                     </div>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary w-100">Update</button>
             </form>
             <br>
         </div>

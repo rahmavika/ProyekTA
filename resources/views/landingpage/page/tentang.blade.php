@@ -3,7 +3,6 @@
 @section('navTentang', 'active')
 @section('content')
 
-<!-- HERO SECTION -->
 <section class="hero-section w-100" style="background-color: #e6f7ff;">
     <div class="row align-items-center py-5 mx-0">
         <div class="col-lg-6 text-center text-lg-start">
@@ -15,7 +14,6 @@
         </div>
     </div>
 </section>
-<!-- Profil Perusahaan -->
 <section class="py-5 bg-light">
     <div class="container">
         <div class="row align-items-center">
@@ -39,7 +37,6 @@
     </div>
 </section>
 
-<!-- Visi & Misi -->
 <section class="py-5">
     <div class="container">
         <h3 class="text-center mb-4">Visi & Misi Kami</h3>
@@ -61,7 +58,6 @@
     </div>
 </section>
 
-<!-- CTA Button -->
 <section class="py-4 bg-light">
     <div class="container text-center">
         <a href="{{ url('/') }}" class="btn btn-outline-primary btn-lg">Kembali ke Beranda</a>

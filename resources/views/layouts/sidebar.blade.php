@@ -1,11 +1,24 @@
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
-      <div class="m-header">
-        <a href="/welcome" class="b-brand text-primary">
-          <!-- ========   Change your logo from here   ============ -->
-          <img src="../assets/images/logo-dark.svg" class="img-fluid logo-lg" alt="logo">
-        </a>
-      </div>
+        <div class="m-header" style="
+            background: linear-gradient(to right, #f4f4f4, #ffffff);
+            padding: 10px 15px;
+            border-radius: 4px;
+        ">
+            <link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+            <a href="/welcome" class="b-brand" style="text-decoration: none;">
+                <span style="
+                    font-family: 'Marcellus', serif;
+                    font-size: 1rem;
+                    font-weight: normal;
+                    color: #2f4f4f;
+                    letter-spacing: 2px;
+                ">
+                    A.W. KARYA BANGUNAN
+                </span>
+            </a>
+        </div>
+    </div>
       <div class="navbar-content">
         <ul class="pc-navbar">
           <li class="pc-item">
@@ -15,11 +28,10 @@
               <span class="pc-mtext">Dashboard</span>
             </a>
           </li>
-          <li class="pc-item">
-            <a href="/dashboard-pengguna" class="pc-link">
-              <span class="pc-micon"><i class="fas fa-users"></i></span>
-              <span class="pc-mtext">Data Pengguna</span>
-            </a>
+          @if (Auth::user()->role === 'super_admin')
+          <li class="pc-item pc-caption">
+            <label>Data Master</label>
+            <i class="ti ti-dashboard"></i>
           </li>
           <li class="pc-item">
             <a href="/dashboard-supplier" class="pc-link">
@@ -39,6 +51,11 @@
               <span class="pc-mtext">Satuan Produk</span>
             </a>
           </li>
+          @endif
+          <li class="pc-item pc-caption">
+            <label>Produk dan Stok</label>
+            <i class="ti ti-dashboard"></i>
+          </li>
           <li class="pc-item">
             <a href="/dashboard-produk" class="pc-link">
               <span class="pc-micon"><i class="fas fa-box"></i></span>
@@ -52,97 +69,53 @@
             </a>
           </li>
           <li class="pc-item">
+            <a href="/dashboard-mutasi" class="pc-link">
+              <span class="pc-micon"><i class="fas fa-boxes"></i></span>
+              <span class="pc-mtext">Log Stok</span>
+            </a>
+          </li>
+          <li class="pc-item pc-caption">
+            <label>Penjualan</label>
+            <i class="ti ti-dashboard"></i>
+          </li>
+          <li class="pc-item">
+            <a href="/dashboard-pesanan" class="pc-link">
+              <span class="pc-micon"><i class="fas fa-clipboard-list"></i></span>
+              <span class="pc-mtext">Pesanan Masuk</span>
+            </a>
+          </li>
+            <li class="pc-item">
+                <a href="/dashboard-penjualan" class="pc-link">
+                    <span class="pc-micon"><i class="fas fa-cash-register"></i></span>
+                    <span class="pc-mtext">Penjualan</span>
+                </a>
+            </li>
+          <li class="pc-item pc-caption">
+            <label>Lainnya</label>
+            <i class="ti ti-dashboard"></i>
+          </li>
+          <li class="pc-item">
+            <a href="/dashboard-pengguna" class="pc-link">
+              <span class="pc-micon"><i class="fas fa-users"></i></span>
+              <span class="pc-mtext">Data Pengguna</span>
+            </a>
+          </li>
+          <li class="pc-item">
             <a href="/contact-us" class="pc-link">
               <span class="pc-micon"><i class="fas fa-envelope"></i></span>
               <span class="pc-mtext">Contact Us</span>
             </a>
           </li>
+          <li class="pc-item">
+            <form id="logout-form" action="/logout" method="POST" style="display: inline;">
+                @csrf
+                <a href="#" class="pc-link" onclick="document.getElementById('logout-form').submit();">
+                    <span class="pc-micon"><i class="bi bi-box-arrow-right"></i></span>
+                    <span class="pc-mtext">Sign out</span>
+                </a>
+            </form>
+        </li>
 
-          <li class="pc-item pc-caption">
-            <label>UI Components</label>
-            <i class="ti ti-dashboard"></i>
-          </li>
-          <li class="pc-item">
-            <a href="../elements/bc_typography.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-typography"></i></span>
-              <span class="pc-mtext">Typography</span>
-            </a>
-          </li>
-          <li class="pc-item">
-            <a href="../elements/bc_color.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
-              <span class="pc-mtext">Color</span>
-            </a>
-          </li>
-          <li class="pc-item">
-            <a href="../elements/icon-tabler.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
-              <span class="pc-mtext">Icons</span>
-            </a>
-          </li>
-
-          <li class="pc-item pc-caption">
-            <label>Pages</label>
-            <i class="ti ti-news"></i>
-          </li>
-          <li class="pc-item">
-            <a href="../pages/login.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-lock"></i></span>
-              <span class="pc-mtext">Login</span>
-            </a>
-          </li>
-          <li class="pc-item">
-            <a href="../pages/register.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
-              <span class="pc-mtext">Register</span>
-            </a>
-          </li>
-
-          <li class="pc-item pc-caption">
-            <label>Other</label>
-            <i class="ti ti-brand-chrome"></i>
-          </li>
-          <li class="pc-item pc-hasmenu">
-            <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span class="pc-mtext">Menu
-                levels</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
-            <ul class="pc-submenu">
-              <li class="pc-item"><a class="pc-link" href="#!">Level 2.1</a></li>
-              <li class="pc-item pc-hasmenu">
-                <a href="#!" class="pc-link">Level 2.2<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
-                <ul class="pc-submenu">
-                  <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
-                  <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
-                  <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
-                    <ul class="pc-submenu">
-                      <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
-                      <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li class="pc-item pc-hasmenu">
-                <a href="#!" class="pc-link">Level 2.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
-                <ul class="pc-submenu">
-                  <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
-                  <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
-                  <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
-                    <ul class="pc-submenu">
-                      <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
-                      <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li class="pc-item">
-            <a href="../other/sample-page.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
-              <span class="pc-mtext">Sample page</span>
-            </a>
-          </li>
         </ul>
       </div>
     </div>

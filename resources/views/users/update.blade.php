@@ -45,17 +45,24 @@
                 </div>
                 <div class="mb-3">
                     <label for="role" class="form-label">Role</label>
-                    <select class="form-select @error('role') is-invalid @enderror" name="role" id="role">
-                        <option value="">-- Pilih Role --</option>
-                        <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-                        <option value="pelanggan" {{ old('role', $user->role) == 'pelanggan' ? 'selected' : '' }}>Pelanggan</option>
-                    </select>
-                    @error('role')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
+
+                    @if(auth()->user()->role === 'admin')
+                        <input type="text" class="form-control" value="Pelanggan" readonly>
+                        <input type="hidden" name="role" value="pelanggan">
+                    @else
+                        <select class="form-select @error('role') is-invalid @enderror" name="role" id="role">
+                            <option value="">-- Pilih Role --</option>
+                            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="pelanggan" {{ old('role', $user->role) == 'pelanggan' ? 'selected' : '' }}>Pelanggan</option>
+                        </select>
+                        @error('role')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    @endif
                 </div>
+
                 <div class="mb-3">
                     <label for="old_password" class="form-label">Password Lama</label>
                     <div class="input-group">

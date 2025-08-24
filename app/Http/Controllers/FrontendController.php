@@ -11,17 +11,13 @@ class FrontendController extends Controller
     public function index(Request $request)
     {
         $kategoriId = $request->get('kategori');
-        $search = $request->get('search'); // Ambil query search
-
-        // Query produk dengan relasi stok
+        $search = $request->get('search'); 
         $produks = Produk::with('stok');
 
-        // Filter berdasarkan kategori jika ada
         if ($kategoriId) {
             $produks->where('kategori_id', $kategoriId);
         }
 
-        // Filter berdasarkan pencarian nama produk atau harga
         if ($search) {
             $produks->where('nama_produk', 'like', "%{$search}%")
                     ->orWhere('harga', 'like', "%{$search}%");
@@ -35,14 +31,13 @@ class FrontendController extends Controller
 
     public function terbaru(Request $request)
     {
-        // Ambil 10 produk terbaru berdasarkan created_at
         $produks = Produk::with('stok')
-                        ->orderBy('created_at', 'desc') // Urutkan berdasarkan tanggal dibuat terbaru
-                        ->take(10) // Ambil 10 produk
+                        ->orderBy('created_at', 'desc')
+                        ->take(10)
                         ->get();
 
         return view('landingpage.page.terbaru', [
-            'produks' => $produks, // Kirim data produk terbaru ke view
+            'produks' => $produks,
         ]);
     }
 
@@ -50,7 +45,6 @@ class FrontendController extends Controller
     {
         $search = $request->input('search');
 
-        // Melakukan pencarian produk berdasarkan nama atau harga
         $produk = Produk::when($search, function ($query, $search) {
             return $query->where('nama_produk', 'like', "%{$search}%")
                         ->orWhere('harga', 'like', "%{$search}%");
@@ -60,7 +54,7 @@ class FrontendController extends Controller
 
         return view('landingpage.page.semuaproduk', [
             'produks' => $produk,
-            'kategoris' => Kategori::all(), // Menambahkan kategoris di sini
+            'kategoris' => Kategori::all(),
         ]);
     }
 }

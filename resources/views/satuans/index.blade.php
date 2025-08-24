@@ -20,7 +20,7 @@
     <tbody>
         @foreach ($satuans as $satuan)
         <tr>
-            <td>{{ $satuans->firstItem() + $loop->index }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $satuan->satuan }}</td>
             <td class="text-nowrap">
                 <button
@@ -44,7 +44,6 @@
         @endforeach
     </tbody>
 </table>
-{{ $satuans->links() }}
 
 <!-- Modal Create -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
@@ -115,7 +114,6 @@
             });
         });
 
-        // Edit
         document.querySelectorAll('.btn-edit').forEach(button => {
             button.addEventListener('click', function () {
                 const id = this.dataset.id;
@@ -125,7 +123,6 @@
             });
         });
 
-        // SweetAlert success
         @if (session('pesan'))
             Swal.fire({
                 title: 'Berhasil!',

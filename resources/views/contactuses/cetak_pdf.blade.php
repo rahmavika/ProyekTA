@@ -86,20 +86,16 @@
 </head>
 <body>
 
-    <!-- Kop Surat -->
     <div class="kop-surat">
-        <img src="{{ public_path('img/icons/brands/el-bakkah.png') }}" alt="Logo El-Bakkah">
         <div class="info">
-            <h2>EL-BAKKAH TRAVEL</h2>
-            <p>Jl. Lolong Karan no. 14 C, Sungai Sapih, Kec. Kuranji, Sumatera Barat 25173</p>
-            <p>Telp: +62 822-8600-3630 | Email: elbakkah4@gmail.com</p>
+            <h2>TB A.W. Karya Banguna</h2>
+            <p>Jl. Mesjid, Sungai Pua, Kec. Sungai Pua, Kabupaten Agam, Sumatera Barat 26181</p>
+            <p>Telp: (0752)691374</p>
         </div>
     </div>
 
-    <!-- Judul -->
     <h3 class="judul">Laporan Data Pertanyaan Pengguna</h3>
 
-    <!-- Tabel Pertanyaan -->
     <table>
         <thead>
             <tr>
@@ -129,7 +125,6 @@
         </tbody>
     </table>
 
-    <!-- Footer -->
     <div class="footer">
         Dicetak pada: {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}
     </div>

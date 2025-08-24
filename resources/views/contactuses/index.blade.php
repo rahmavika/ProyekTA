@@ -24,17 +24,17 @@
     <tbody>
         @foreach ($questions as $question)
         <tr>
-            <td>{{ $questions->firstItem() + $loop->index }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $question->nama }}</td>
             <td>{{ $question->email }}</td>
             <td>{{ Str::limit($question->pertanyaan, 50) }}</td>
             <td>{{ $question->jawaban ? Str::limit($question->jawaban, 50) : '-' }}</td>
             <td class="text-nowrap">
-                <a href="{{ route('contactuses.edit', $question->id) }}" class="btn btn-sm btn-warning">
-                    <i class='bx bx-edit'></i>
+                <a href="{{ route('contactuses.edit', $question->id) }}" class="btn btn-sm btn-primary">
+                    <i class="bi bi-pencil-square"></i>
                 </a>
                 <button type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{ $question->id }}">
-                    <i class='bx bx-trash'></i>
+                    <i class="bi bi-trash-fill"></i>
                 </button>
                 <form id="form-delete-{{ $question->id }}" action="{{ route('contactuses.destroy', $question->id) }}" method="POST" class="d-none">
                     @csrf
@@ -45,7 +45,6 @@
         @endforeach
     </tbody>
 </table>
-{{ $questions->links() }}
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

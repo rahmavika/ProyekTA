@@ -8,6 +8,11 @@
 </div>
 
 <a href="/dashboard-pengguna/create" class="btn btn-primary mb-3">+Pengguna</a>
+@if (Auth::check() && Auth::user()->role === 'super_admin')
+    <a href="/cetak/pengguna" target="_blank" class="btn btn-success mb-3">Cetak PDF</a>
+@endif
+
+
 <table id=userTable class="table table-dashboard">
     <thead>
         <tr>
@@ -22,7 +27,7 @@
     <tbody>
         @foreach ($users as $user)
         <tr>
-            <td>{{ $users->firstItem()+$loop->index}}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user->phone }}</td>
@@ -51,7 +56,6 @@
         @endforeach
     </tbody>
 </table>
-{{ $users->links() }}
 
 <!-- Modal Detail Pengguna -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
@@ -92,7 +96,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Hapus data
+
         document.querySelectorAll('.btn-delete').forEach(button => {
             button.addEventListener('click', function () {
                 const userId = this.getAttribute('data-id');
@@ -114,7 +118,6 @@
             });
         });
 
-        // Show detail modal
         document.querySelectorAll('.btn-detail').forEach(button => {
             button.addEventListener('click', function () {
                 document.getElementById('detailNama').innerText = this.dataset.name;

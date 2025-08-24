@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\PDF;
 
 class SupplierController extends Controller
 {
@@ -12,7 +13,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = Supplier::paginate(10);
+        $suppliers = Supplier::all();
         return view('suppliers.index', compact('suppliers'));
     }
 
@@ -87,5 +88,9 @@ class SupplierController extends Controller
     {
         Supplier::destroy($id);
         return redirect('/dashboard-supplier')->with('pesan', 'Data berhasil dihapus');
+    }
+    public function cetakPdf(){
+        $pdf = PDF::loadView('suppliers.cetak', ['suppliers' => Supplier::all()]);
+        return $pdf->stream('Laporan-Data-Supplier.pdf');
     }
 }
